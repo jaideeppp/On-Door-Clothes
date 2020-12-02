@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ShopPage from './pages/shop/ShopPage'
+import Header from './components/Header/Header'
 
 import HomePage from './pages/homepage/homepage';
 
@@ -9,6 +10,7 @@ function App() {
   return (
     <Router>
       <div>
+        <Header />
         <Switch>
           <Route path="/" exact component={HomePage} />
           <Route path="/shop" component={ShopPage} />
