@@ -5,38 +5,57 @@ import ShopPage from './pages/shop/ShopPage'
 import Header from './components/Header/Header'
 import SignInAndSignUp from './pages/SignIn-and-SignUp/SignIn-and-SignUp'
 import HomePage from './pages/homepage/homepage';
-import { auth } from './Firebase/firebase.utils'
+import { auth, createUserProfileDocument } from './Firebase/firebase.utils'
 
 
 class App extends Component {
-  state = {
-    currentUser: null
+  constructor() {
+    super();
+
+    this.state = {
+      currentUser: null
+    };
   }
 
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({ currentUser: user })
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
 
-      console.log(user);
-    })
+        userRef.onSnapshot(snapShot => {
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data()
+            }
+          });
+
+          console.log(this.state);
+        });
+      }
+
+      this.setState({ currentUser: userAuth });
+    });
   }
+
   componentWillUnmount() {
     this.unsubscribeFromAuth();
   }
+
   render() {
     return (
       <Router>
         <div>
           <Header currentUser={this.state.currentUser} />
           <Switch>
-            <Route path="/" exact component={HomePage} />
-            <Route path="/shop" component={ShopPage} />
-            <Route path="/signin" component={SignInAndSignUp} />
+            <Route exact path='/' component={HomePage} />
+            <Route path='/shop' component={ShopPage} />
+            <Route path='/signin' component={SignInAndSignUp} />
           </Switch>
         </div>
-      </Router >
+      </Router>
     );
   }
 }
