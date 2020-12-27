@@ -16,7 +16,7 @@ const initialState = {
             title: 'sneakers',
             imageUrl: 'https://i.ibb.co/0jqHpnp/sneakers.png',
             id: 3,
-            linkUrl: 'shop/sheakers'
+            linkUrl: 'shop/sneakers'
         },
         {
             title: 'womens',
@@ -30,7 +30,7 @@ const initialState = {
             imageUrl: 'https://i.ibb.co/R70vBrQ/men.png',
             size: 'large',
             id: 5,
-            linkUrl: 'shop/mens '
+            linkUrl: 'shop/mens'
         }
     ]
 }
